@@ -1,12 +1,17 @@
 package name.electricalqzhang.springbootlearn.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Article {
@@ -20,37 +25,11 @@ public class Article {
      * reader : [{"name":"zimug","age":18},{"name":"kobe","age":37}]
      */
 
-    private int id;
+    private Long id;
     private String author;
     private String title;
     private String content;
-    private String createTime;
-    private List<ReaderBean> reader;
-
-
-    public static class ReaderBean {
-        /**
-         * name : zimug
-         * age : 18
-         */
-
-        private String name;
-        private int age;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-    }
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Date createTime;
+    private List<Reader> reader;
 }
