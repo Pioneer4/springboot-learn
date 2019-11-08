@@ -3,12 +3,14 @@ package name.electricalqzhang.springbootlearn.controller;
 import lombok.extern.slf4j.Slf4j;
 import name.electricalqzhang.springbootlearn.model.AjaxResponse;
 import name.electricalqzhang.springbootlearn.model.Article;
+import name.electricalqzhang.springbootlearn.service.ArticleRestService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
@@ -21,12 +23,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @RequestMapping("/rest")
 public class ArticleRestController {
 
+    @Resource
+    public ArticleRestService articleRestService;
  
 //    @RequestMapping(value = "/article", method = POST, produces = "application/json")
-    @PostMapping("/article")
+    @PostMapping(value = "/article")
     public AjaxResponse saveArticle(@RequestBody Article article) {
 
         log.info("saveArticle：{}",article);
+
+        log.info(articleRestService.saveArticle(article));
+
         return  AjaxResponse.success(article);
     }
  
