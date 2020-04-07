@@ -2,11 +2,14 @@ package name.electricalqzhang.springbootlearn;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import name.electricalqzhang.springbootlearn.controller.ArticleRestController;
 import name.electricalqzhang.springbootlearn.controller.HelloController;
 import name.electricalqzhang.springbootlearn.model.Article;
 import name.electricalqzhang.springbootlearn.service.ArticleRestService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,13 +24,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 //@Transactional
 @Slf4j
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-@WebMvcTest
+@WebMvcTest({HelloController.class, ArticleRestController.class})
 public class ArticleRestControllerTest3 {
 
     @Resource
@@ -39,6 +43,7 @@ public class ArticleRestControllerTest3 {
     // 无法注入成功
     @Resource
     private HelloController helloController;
+
 
 
 //    @Before
@@ -62,9 +67,9 @@ public class ArticleRestControllerTest3 {
 
 
         Mockito.when(articleRestService.saveArticle(articleObj)).thenReturn("OK");
+//        Mockito.doReturn("OK").when(articleRestService).saveArticle(articleObj);
 
-//        Assert.assertThat(articleRestService.saveArticle(articleObj), equalTo("OK"));
-
+        Assert.assertThat(articleRestService.saveArticle(articleObj), equalTo("OK"));
 
         MvcResult result = mockMvc.perform(
                 MockMvcRequestBuilders.request(HttpMethod.POST, "/rest/article")
